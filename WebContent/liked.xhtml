@@ -1,0 +1,188 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>TR A LOT</title>
+
+
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+	<meta charset="utf-8" />
+	<style>
+/* Always set the map height explicitly to define the size of the div
+		       * element that contains the map. */
+#map {
+	height: 50%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+</style>
+
+</h:head>
+<h:body onload="initMap()">
+	<div id="map"></div>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw0TQDU2gwxlZ-i2y59JQL3xOKeC6mppM" />
+	<script type="text/javascript">
+	  //<![CDATA[
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+      var map, infoWindow;
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: {lat: 41.0082, lng: 28.9784 }
+        });
+
+        var bounds = {
+          north: 41.0793,
+          south: 41.0071,
+          east: 28.9995,
+          west: 28.9473
+        };
+
+        // Display the area between the location southWest and northEast.
+        map.fitBounds(bounds); 
+        infoWindow = new google.maps.InfoWindow;
+
+        var image = {
+                url: 'img/tinypic1.jpg',
+                // This marker is 20 pixels wide by 32 pixels high.
+                size: new google.maps.Size(20, 32),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(0, 32)
+              };
+        
+        marker = new google.maps.Marker({
+            position: {
+              lat: 40.938945,
+              lng: 29.112650
+            },
+            size: new google.maps.Size(1, 1),
+            icon : image,
+            map: map
+          });
+          attachSecretMessage(marker, 'You are here'); 
+
+          image = {
+                  url: 'img/tinypic2.jpg',
+                  // This marker is 20 pixels wide by 32 pixels high.
+                  size: new google.maps.Size(20, 32),
+                  // The origin for this image is (0, 0).
+                  origin: new google.maps.Point(0, 0),
+                  // The anchor for this image is the base of the flagpole at (0, 32).
+                  anchor: new google.maps.Point(0, 32)
+                };
+          
+          marker = new google.maps.Marker({
+              position: {
+                lat: 40.944440,
+                lng: 29.107393
+              },
+              size: new google.maps.Size(1, 1),
+              icon : image,
+              map: map
+            });
+            attachSecretMessage(marker, 'You are here'); 
+
+  
+
+        
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+
+            var marker = new google.maps.Marker({
+                position: {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                },
+                map: map
+              });
+              attachSecretMessage(marker, 'You are here'); 
+
+             
+            
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+ 	  // Attaches an info window to a marker with the provided message. When the
+      // marker is clicked, the info window will open with the secret message.
+      function attachSecretMessage(marker, secretMessage) {
+        var infowindow = new google.maps.InfoWindow({
+          content: secretMessage
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(marker.get('map'), marker);
+        });
+      }
+      
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
+      //]]>
+    </script>
+
+	<h:form>
+
+
+		<p:repeat value="#{likedView.getMockData().data}" var="_data">
+			<h:panelGrid columns="2" style="width:100%"
+				columnClasses="logo,detail">
+
+				<p:outputPanel>
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<img src="#{_data.images.thumbnail.url}" alt="loading.." />
+
+						<h:panelGrid columns="1" cellpadding="5">
+							<h:outputText value="#{_data.caption.text}"
+								style="font-weight: bold" />
+
+							<h:outputText value="#{_data.location.name}" />
+
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:outputPanel>
+			</h:panelGrid>
+			<hr />
+		</p:repeat>
+
+
+
+	</h:form>
+
+</h:body>
+</html>

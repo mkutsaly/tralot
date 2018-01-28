@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:metadata> 
+		<f:event listener="#{sessionController.init}" type="preRenderView"/>
+	</f:metadata>
+</h:head>
+<h:body>
+	<h1>Hello TrALot</h1>
+ 
+
+	<h:form>
+		<br/><img src="#{sessionController.loginUser.profilePictureUrl}"
+			alt="Smiley face" />
+		<br/>fullname:<p:outputLabel value="#{sessionController.loginUser.fullName}" />
+		<br/>username:<p:outputLabel value="#{sessionController.loginUser.userName}" />
+		<br/>id:<p:outputLabel value="#{sessionController.loginUser.userId}" />
+		<br/>at:<p:outputLabel value="#{sessionController.accessToken}" />
+
+
+ 		<p><a href="liked.xhtml">liked Medias</a></p>
+		
+		
+
+
+	</h:form>
+
+</h:body>
+</html>
